@@ -1,0 +1,36 @@
+{% extends "base/base.html" %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+{% block canonical %}{{ canonical_url }}{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1>Notices & Announcements</h1>
+        <div class="search-filter-bar">
+            <input type="search" id="notice-search" class="form-control" placeholder="Search notices..." aria-label="Search notices">
+            <select id="notice-filter" class="form-control" aria-label="Filter by priority">
+                <option value="">All Priorities</option>
+                <option value="urgent">Urgent</option>
+                <option value="high">High</option>
+                <option value="normal">Normal</option>
+                <option value="low">Low</option>
+            </select>
+        </div>
+        {% if notices %}
+        <div class="notice-list">
+            {% for notice in notices %}
+            <article class="notice-item">
+                <span class="badge badge-{{ notice.priority }}">{{ notice.get_priority_display }}</span>
+                <h2 class="notice-title"><a href="/notices/{{ notice.slug }}/">{{ notice.title }}</a></h2>
+                <p class="notice-meta">{{ notice.publish_date|date:"d M Y" }} | {{ notice.category.name }}</p>
+                <p class="notice-summary">{{ notice.summary|truncatewords:25 }}</p>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state"><p>No notices available.</p></div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

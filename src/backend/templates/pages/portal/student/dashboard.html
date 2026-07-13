@@ -1,0 +1,32 @@
+{% extends "base/base.html" %}
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1>Student Dashboard</h1>
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <h2>My Profile</h2>
+                <p>View and update your personal information.</p>
+                <a href="#" class="btn btn-primary">View Profile</a>
+            </div>
+            <div class="dashboard-card">
+                <h2>Attendance</h2>
+                <p>Check your attendance records.</p>
+                <a href="#" class="btn btn-primary">View Attendance</a>
+            </div>
+            <div class="dashboard-card">
+                <h2>Results</h2>
+                <p>View your examination results.</p>
+                <a href="#" class="btn btn-primary">View Results</a>
+            </div>
+            <div class="dashboard-card">
+                <h2>Documents</h2>
+                <p>Manage your uploaded documents.</p>
+                <a href="#" class="btn btn-primary">View Documents</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

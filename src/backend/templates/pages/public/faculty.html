@@ -1,0 +1,36 @@
+{% extends "base/base.html" %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+{% block canonical %}{{ canonical_url }}{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1>Our Faculty</h1>
+        <div class="search-filter-bar">
+            <input type="search" id="faculty-search" class="form-control" placeholder="Search faculty..." aria-label="Search faculty">
+        </div>
+        {% if faculty %}
+        <div class="card-grid faculty-grid">
+            {% for f in faculty %}
+            <article class="card faculty-card">
+                {% if f.profile_image %}
+                <img src="{{ f.profile_image.url }}" alt="{{ f.user.full_name }}" class="faculty-image" loading="lazy">
+                {% else %}
+                <div class="faculty-image placeholder" aria-hidden="true"></div>
+                {% endif %}
+                <div class="card-body">
+                    <h2 class="card-title">{{ f.user.full_name }}</h2>
+                    <p class="card-meta">{{ f.get_designation_display }}</p>
+                    <p class="card-meta">{{ f.department.name }}</p>
+                    <p class="card-text">{{ f.bio|truncatewords:15 }}</p>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state"><p>No faculty found.</p></div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

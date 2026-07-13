@@ -1,0 +1,32 @@
+{% extends "base/base.html" %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+{% block canonical %}{{ canonical_url }}{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1>Departments</h1>
+        <div class="search-filter-bar">
+            <input type="search" id="dept-search" class="form-control" placeholder="Search departments..." aria-label="Search departments">
+        </div>
+        {% if departments %}
+        <div class="card-grid">
+            {% for dept in departments %}
+            <article class="card dept-card">
+                <div class="card-body">
+                    <h2 class="card-title"><a href="/departments/{{ dept.slug }}/">{{ dept.name }}</a></h2>
+                    <p class="card-meta">Code: {{ dept.code }} | Courses: {{ dept.course_count }}</p>
+                    <p class="card-text">{{ dept.description|truncatewords:20 }}</p>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p>No departments found.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

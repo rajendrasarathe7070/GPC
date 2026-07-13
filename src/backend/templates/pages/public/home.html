@@ -1,0 +1,150 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+{% block canonical %}{{ canonical_url }}{% endblock %}
+
+{% block schema %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "Government Polytechnic College",
+    "url": "{{ SITE_URL }}",
+    "logo": "{{ SITE_URL }}/static/images/logo.png",
+    "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Raipur",
+        "addressRegion": "Chhattisgarh",
+        "addressCountry": "IN"
+    }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero" aria-label="Welcome">
+    <div class="hero-content container">
+        <h1 class="hero-title">Welcome to Government Polytechnic College</h1>
+        <p class="hero-subtitle">Shaping Future Technocrats with Quality Education, Innovation, and Excellence since 1956.</p>
+        <div class="hero-actions">
+            <a href="/courses/" class="btn btn-primary btn-lg">Explore Courses</a>
+            <a href="/contact/" class="btn btn-outline btn-lg">Contact Us</a>
+        </div>
+    </div>
+</section>
+
+<!-- Notices Section -->
+<section class="section" aria-labelledby="notices-heading">
+    <div class="container">
+        <div class="section-header">
+            <h2 id="notices-heading" class="section-title">Latest Notices</h2>
+            <a href="/notices/" class="link-arrow">View All <span aria-hidden="true">&rarr;</span></a>
+        </div>
+        {% if notices %}
+        <div class="card-grid">
+            {% for notice in notices %}
+            <article class="card notice-card">
+                <div class="card-body">
+                    <span class="badge badge-{{ notice.priority }}">{{ notice.get_priority_display }}</span>
+                    <h3 class="card-title"><a href="/notices/{{ notice.slug }}/">{{ notice.title }}</a></h3>
+                    <p class="card-meta">{{ notice.publish_date|date:"d M Y" }}</p>
+                    <p class="card-text">{{ notice.summary|truncatewords:20 }}</p>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p>No notices available at the moment.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Departments Section -->
+<section class="section section-alt" aria-labelledby="departments-heading">
+    <div class="container">
+        <div class="section-header">
+            <h2 id="departments-heading" class="section-title">Our Departments</h2>
+            <a href="/departments/" class="link-arrow">View All <span aria-hidden="true">&rarr;</span></a>
+        </div>
+        {% if departments %}
+        <div class="card-grid">
+            {% for dept in departments %}
+            <article class="card dept-card">
+                <div class="card-body">
+                    <h3 class="card-title"><a href="/departments/{{ dept.slug }}/">{{ dept.name }}</a></h3>
+                    <p class="card-text">{{ dept.description|truncatewords:15 }}</p>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p>No departments listed.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Events Section -->
+<section class="section" aria-labelledby="events-heading">
+    <div class="container">
+        <div class="section-header">
+            <h2 id="events-heading" class="section-title">Upcoming Events</h2>
+            <a href="/events/" class="link-arrow">View All <span aria-hidden="true">&rarr;</span></a>
+        </div>
+        {% if events %}
+        <div class="card-grid">
+            {% for event in events %}
+            <article class="card event-card">
+                {% if event.image %}
+                <img src="{{ event.image.url }}" alt="" class="card-image" loading="lazy">
+                {% endif %}
+                <div class="card-body">
+                    <h3 class="card-title"><a href="/events/{{ event.slug }}/">{{ event.title }}</a></h3>
+                    <p class="card-meta">{{ event.start_datetime|date:"d M Y, h:i A" }} | {{ event.venue }}</p>
+                    <p class="card-text">{{ event.short_description|truncatewords:20 }}</p>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p>No upcoming events.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Gallery Preview -->
+<section class="section section-alt" aria-labelledby="gallery-heading">
+    <div class="container">
+        <div class="section-header">
+            <h2 id="gallery-heading" class="section-title">Gallery</h2>
+            <a href="/gallery/" class="link-arrow">View All <span aria-hidden="true">&rarr;</span></a>
+        </div>
+        {% if albums %}
+        <div class="gallery-grid">
+            {% for album in albums %}
+            <a href="/gallery/{{ album.slug }}/" class="gallery-item">
+                {% if album.cover_image %}
+                <img src="{{ album.cover_image.url }}" alt="{{ album.title }}" loading="lazy">
+                {% else %}
+                <div class="gallery-placeholder" aria-hidden="true"></div>
+                {% endif %}
+                <span class="gallery-caption">{{ album.title }}</span>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p>No albums available.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
