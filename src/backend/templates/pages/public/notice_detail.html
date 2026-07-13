@@ -1,0 +1,37 @@
+{% extends "base/base.html" %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+{% block canonical %}{{ canonical_url }}{% endblock %}
+
+{% block schema %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "headline": "{{ notice.title|escapejs }}",
+    "description": "{{ notice.summary|escapejs }}",
+    "datePublished": "{{ notice.publish_date|date:'c' }}",
+    "dateModified": "{{ notice.updated_at|date:'c' }}",
+    "author": {
+        "@type": "Organization",
+        "name": "Government Polytechnic College"
+    }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container content-page">
+        <span class="badge badge-{{ notice.priority }}">{{ notice.get_priority_display }}</span>
+        <h1>{{ notice.title }}</h1>
+        <p class="meta">Published on {{ notice.publish_date|date:"d M Y, h:i A" }} | Category: {{ notice.category.name }}</p>
+        {% if notice.attachment %}
+        <p><a href="{{ notice.attachment.url }}" class="btn btn-primary" download>Download Attachment</a></p>
+        {% endif %}
+        <div class="content-body">
+            {{ notice.content|linebreaks }}
+        </div>
+    </div>
+</section>
+{% endblock %}

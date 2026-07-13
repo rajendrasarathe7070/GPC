@@ -1,0 +1,60 @@
+{% extends "base/base.html" %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+{% block canonical %}{{ canonical_url }}{% endblock %}
+
+{% block schema %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Department",
+    "name": "{{ department.name }}",
+    "description": "{{ department.description|escapejs }}",
+    "url": "{{ canonical_url }}"
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1>{{ department.name }} Department</h1>
+        <p class="lead">{{ department.description }}</p>
+        {% if department.vision %}
+        <h2>Vision</h2>
+        <p>{{ department.vision }}</p>
+        {% endif %}
+        {% if department.mission %}
+        <h2>Mission</h2>
+        <p>{{ department.mission }}</p>
+        {% endif %}
+
+        <h2>Courses</h2>
+        {% if courses %}
+        <ul class="list-group">
+            {% for course in courses %}
+            <li class="list-group-item"><a href="/courses/{{ course.slug }}/">{{ course.name }}</a></li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <div class="empty-state"><p>No courses listed.</p></div>
+        {% endif %}
+
+        <h2>Faculty</h2>
+        {% if faculty %}
+        <div class="card-grid">
+            {% for f in faculty %}
+            <article class="card">
+                <div class="card-body">
+                    <h3 class="card-title">{{ f.user.full_name }}</h3>
+                    <p class="card-meta">{{ f.get_designation_display }}</p>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state"><p>No faculty listed.</p></div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

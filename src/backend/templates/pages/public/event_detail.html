@@ -1,0 +1,44 @@
+{% extends "base/base.html" %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+{% block canonical %}{{ canonical_url }}{% endblock %}
+
+{% block schema %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": "{{ event.title|escapejs }}",
+    "description": "{{ event.short_description|escapejs }}",
+    "startDate": "{{ event.start_datetime|date:'c' }}",
+    "endDate": "{{ event.end_datetime|date:'c' }}",
+    "location": {
+        "@type": "Place",
+        "name": "{{ event.venue|escapejs }}"
+    }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container content-page">
+        {% if event.image %}
+        <img src="{{ event.image.url }}" alt="{{ event.title }}" class="event-hero-image" loading="eager">
+        {% endif %}
+        <h1>{{ event.title }}</h1>
+        <div class="info-grid">
+            <div class="info-item"><strong>Date:</strong> {{ event.start_datetime|date:"d M Y, h:i A" }} - {{ event.end_datetime|date:"d M Y, h:i A" }}</div>
+            <div class="info-item"><strong>Venue:</strong> {{ event.venue }}</div>
+            <div class="info-item"><strong>Organizer:</strong> {{ event.organizer }}</div>
+            <div class="info-item"><strong>Type:</strong> {{ event.get_event_type_display }}</div>
+        </div>
+        <div class="content-body">
+            {{ event.description|linebreaks }}
+        </div>
+        {% if event.registration_required %}
+        <p><button class="btn btn-primary" id="event-register-btn" data-event-id="{{ event.id }}">Register Now</button></p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

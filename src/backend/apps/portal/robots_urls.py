@@ -1,0 +1,23 @@
+"""Robots.txt URL configuration."""
+
+from django.http import HttpResponse
+from django.urls import path
+
+
+def robots_txt(request):
+    lines = [
+        "User-agent: *",
+        "Disallow: /admin/",
+        "Disallow: /portal/",
+        "Disallow: /api/",
+        "Disallow: /media/",
+        "Allow: /",
+        "",
+        f"Sitemap: {request.build_absolute_uri('/sitemap.xml')}",
+    ]
+    return HttpResponse("\n".join(lines), content_type="text/plain")
+
+
+urlpatterns = [
+    path("", robots_txt, name="robots-txt"),
+]

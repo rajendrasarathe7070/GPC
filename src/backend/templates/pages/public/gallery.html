@@ -1,0 +1,28 @@
+{% extends "base/base.html" %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+{% block canonical %}{{ canonical_url }}{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1>Gallery</h1>
+        {% if albums %}
+        <div class="gallery-grid">
+            {% for album in albums %}
+            <a href="/gallery/{{ album.slug }}/" class="gallery-item">
+                {% if album.cover_image %}
+                <img src="{{ album.cover_image.url }}" alt="{{ album.title }}" loading="lazy">
+                {% else %}
+                <div class="gallery-placeholder" aria-hidden="true"></div>
+                {% endif %}
+                <span class="gallery-caption">{{ album.title }}</span>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state"><p>No albums available.</p></div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

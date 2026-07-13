@@ -1,0 +1,65 @@
+{% extends "base/base.html" %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+{% block canonical %}{{ canonical_url }}{% endblock %}
+
+{% block schema %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": "{{ course.name }}",
+    "description": "{{ course.description|escapejs }}",
+    "provider": {
+        "@type": "EducationalOrganization",
+        "name": "Government Polytechnic College"
+    }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1>{{ course.name }}</h1>
+        <p class="lead">{{ course.description }}</p>
+        <div class="info-grid">
+            <div class="info-item"><strong>Code:</strong> {{ course.code }}</div>
+            <div class="info-item"><strong>Duration:</strong> {{ course.get_duration_years_display }}</div>
+            <div class="info-item"><strong>Semesters:</strong> {{ course.total_semesters }}</div>
+            <div class="info-item"><strong>Intake:</strong> {{ course.intake_capacity }}</div>
+            <div class="info-item"><strong>Department:</strong> <a href="/departments/{{ course.department.slug }}/">{{ course.department.name }}</a></div>
+        </div>
+        {% if course.eligibility %}
+        <h2>Eligibility</h2>
+        <p>{{ course.eligibility }}</p>
+        {% endif %}
+        {% if course.syllabus_url %}
+        <p><a href="{{ course.syllabus_url }}" class="btn btn-primary" target="_blank" rel="noopener">Download Syllabus</a></p>
+        {% endif %}
+
+        <h2>Subjects</h2>
+        {% if subjects %}
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr><th>Subject</th><th>Code</th><th>Semester</th><th>Credits</th></tr>
+                </thead>
+                <tbody>
+                    {% for subject in subjects %}
+                    <tr>
+                        <td>{{ subject.name }}</td>
+                        <td>{{ subject.code }}</td>
+                        <td>{{ subject.semester }}</td>
+                        <td>{{ subject.credits }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state"><p>No subjects listed.</p></div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

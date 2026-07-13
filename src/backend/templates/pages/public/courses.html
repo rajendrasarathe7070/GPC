@@ -1,0 +1,30 @@
+{% extends "base/base.html" %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+{% block canonical %}{{ canonical_url }}{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1>Courses & Programs</h1>
+        <div class="search-filter-bar">
+            <input type="search" id="course-search" class="form-control" placeholder="Search courses..." aria-label="Search courses">
+        </div>
+        {% if courses %}
+        <div class="card-grid">
+            {% for course in courses %}
+            <article class="card course-card">
+                <div class="card-body">
+                    <h2 class="card-title"><a href="/courses/{{ course.slug }}/">{{ course.name }}</a></h2>
+                    <p class="card-meta">{{ course.department.name }} | {{ course.get_duration_years_display }} | Intake: {{ course.intake_capacity }}</p>
+                    <p class="card-text">{{ course.description|truncatewords:20 }}</p>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state"><p>No courses found.</p></div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

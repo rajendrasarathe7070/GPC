@@ -1,0 +1,31 @@
+{% extends "base/base.html" %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+{% block canonical %}{{ canonical_url }}{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1>{{ album.title }}</h1>
+        <p class="lead">{{ album.description }}</p>
+        {% if media %}
+        <div class="gallery-grid media-grid">
+            {% for item in media %}
+            <figure class="media-item">
+                {% if item.media_type == "image" %}
+                <img src="{{ item.file.url }}" alt="{{ item.caption }}" loading="lazy">
+                {% else %}
+                <video src="{{ item.file.url }}" controls preload="none" poster="/static/images/video-poster.jpg"></video>
+                {% endif %}
+                {% if item.caption %}
+                <figcaption>{{ item.caption }}</figcaption>
+                {% endif %}
+            </figure>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state"><p>No media in this album.</p></div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

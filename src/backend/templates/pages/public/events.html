@@ -1,0 +1,39 @@
+{% extends "base/base.html" %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block meta_description %}{{ meta_description }}{% endblock %}
+{% block canonical %}{{ canonical_url }}{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1>Events</h1>
+        <div class="search-filter-bar">
+            <input type="search" id="event-search" class="form-control" placeholder="Search events..." aria-label="Search events">
+            <select id="event-filter" class="form-control" aria-label="Filter by status">
+                <option value="">All</option>
+                <option value="upcoming">Upcoming</option>
+                <option value="ongoing">Ongoing</option>
+                <option value="past">Past</option>
+            </select>
+        </div>
+        {% if events %}
+        <div class="card-grid">
+            {% for event in events %}
+            <article class="card event-card">
+                {% if event.image %}
+                <img src="{{ event.image.url }}" alt="" class="card-image" loading="lazy">
+                {% endif %}
+                <div class="card-body">
+                    <h2 class="card-title"><a href="/events/{{ event.slug }}/">{{ event.title }}</a></h2>
+                    <p class="card-meta">{{ event.start_datetime|date:"d M Y, h:i A" }} | {{ event.venue }}</p>
+                    <p class="card-text">{{ event.short_description|truncatewords:20 }}</p>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state"><p>No events found.</p></div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
